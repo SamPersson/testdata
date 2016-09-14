@@ -37,7 +37,7 @@ function CheckoutNO() {
 
 function NewVONCustomer() {
 	var customerNumber = document.getElementById("maincontentholder_CustomerNoTextBox").value;
-	if(!customerNumber.match("\d+")) {
+	if(!customerNumber.match(/\d+/)) {
 	  document.getElementById("maincontentholder_CustomerNoTextBox").value = customerNumber = randint(100000000);
 	}
 	document.getElementById("maincontentholder_CustomerNameTextBox").value = "s" + customerNumber;
