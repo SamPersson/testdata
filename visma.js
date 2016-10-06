@@ -50,11 +50,11 @@ function NewVONCustomer() {
 	document.getElementById("maincontentholder_LastNameTextBox").value = customerNumber;
 }
 
-if(window.location.href.match(/\/sv\-SE\/checkout\/buy\b/)) {
+if(window.location.href.match(/\/sv\-SE\/checkout\/buy\b/i)) {
   CheckoutSE();
-} else if(window.location.href.match(/\/nb\-NO\/checkout\/buy\b/)) {
+} else if(window.location.href.match(/\/nb\-NO\/checkout\/buy\b/i)) {
   CheckoutNO();
-} else if(window.location.href.match(/\/administration\/Internal\/AddNewCustomer\.aspx\b/)) {
+} else if(window.location.href.match(/\/administration\/Internal\/AddNewCustomer\.aspx\b/i)) {
   NewVONCustomer();
 }
 	
