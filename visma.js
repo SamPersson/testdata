@@ -44,7 +44,7 @@ function CheckoutNO() {
 }
 
 function NewVONCustomer(country) {
-	var customerNumber = document.getElementById("maincontentholder_CustomerNoTextBox").value;
+	var customerNumber = document.getElementById("maincontentholder_CustomerNoTextBox").value.trim();
 	if(!customerNumber.match(/\d+/)) {
 	  document.getElementById("maincontentholder_CustomerNoTextBox").value = customerNumber = randint(100000000);
 	}
