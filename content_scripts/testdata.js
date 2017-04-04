@@ -45,6 +45,15 @@
         tryGetElem("Firstname", e => e.value = country + "-Test");
         tryGetElem("Surname", e => e.value = email.split("@")[0]);
         tryGetElem("AcceptLicenceAgreement", e => e.checked = true);
+        tryGetElem("Phone", e => e.value = country === "no" ? "12345678" : "070-1234567");
+    }
+
+    function InviteAO(country) {
+        const d = new Date();
+        const email = tryGetElem("Email", e => e.value = country + pad(d.getYear() % 100, 2) + pad(d.getMonth() + 1, 2) + pad(d.getDate(), 2) + "-" + pad(randint(10000) + "@vline.spcs.se", 4));
+        tryGetElem("CompanyName", e => e.value = email.split("@")[0]);
+        tryGetElem("CorporateIdentityNo", e => e.value = getRegNo(country));
+        tryGetElem("ContactPersonName", e => e.value = country + "-Test");
     }
 
     function NewVONCustomer(country) {
@@ -67,9 +76,12 @@
     const m = window.location.href.match(/\/[a-z]{2}\-([A-Z]{2})\//);
     if(m) {
         country = m[1].toLowerCase();
-        if(document.getElementById("Customer_OrgNo"))     {
+        if(document.getElementById("Customer_OrgNo")) {
             Checkout(country);
-        } 
+        }
+        else if (document.getElementById("SendInvitationToAO")) {
+            InviteAO(country);
+        }
         else if(document.getElementById("Email"))     {
             Trial(country);
         }
