@@ -4,11 +4,11 @@
       "updates": [
         { 
           "version": "1.0",
-          "update_link": "https://github.com/samiljan/testdata/releases/download/v1.0.0/visma_online_test_data-1.0-an+fx.xpi" 
+          "update_link": "https://github.com/samiljan/testdata/releases/download/v1.0.0/visma_online_test_data-1.0-an.fx.xpi" 
         },
         {
           "version": "1.0.1",
-          "update_link": "https://github.com/samiljan/testdata/releases/download/v1.0.1/visma_online_test_data-1.0.1-an+fx.xpi"
+          "update_link": "https://github.com/samiljan/testdata/releases/download/v1.0.1/visma_online_test_data-1.0.1-an.fx.xpi"
         }
       ]
     }
