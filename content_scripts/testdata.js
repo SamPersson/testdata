@@ -30,13 +30,16 @@
         
     function Checkout(country) {
         const regNo = tryGetElem("Customer_OrgNo", e => e.value = e.value || getRegNo(country));
-        const mail = tryGetElem("CompanyContactEmail", e => e.innerText);
-        tryGetElem("Customer_Name", e => e.value = mail && mail.split("@")[0] || regNo + " customer");
+        const email = tryGetElem("Employee_Email", e => e.value) || tryGetElem("CompanyContactEmail", e => e.innerText);
+        tryGetElem("Customer_Name", e => e.value = email && email.split("@")[0] || regNo + " customer");
         tryGetElem("Customer_InvoicingAddress1", e => e.value = "A");
         tryGetElem("Customer_InvoicingPostalCode", e => e.value = country === "no" ? "2222" : "22222");
         tryGetElem("Customer_InvoicingCity", e => e.value = "Stad");
         tryGetElem("Customer_PhoneNumber", e => e.value = country === "no" ? "12345678" : "070-1234567");
         tryGetElem("AcceptTermsOfService", e => e.checked = true);
+
+        tryGetElem("Employee_FirstName", e => e.value = country + "-Test");
+        tryGetElem("Employee_LastName", e => e.value = email.split("@")[0]);
     }
 
     function Trial(country) {
