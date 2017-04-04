@@ -21,6 +21,7 @@
 
   "applications": {
     "gecko": {
+      "id": "testdata@samiljan.github.io",
       "update_url": "https://samiljan.github.io/testdata/updates.json"
     }
   }
