@@ -17,5 +17,11 @@
   "browser_action": {
     "default_icon": "icons/logo-32.png",
     "default_title": "Visma Online test data"
+  },
+
+  "applications": {
+    "gecko": {
+      "update_url": "https://samiljan.github.io/testdata/updates.json"
+    }
   }
 }
