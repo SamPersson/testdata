@@ -21,6 +21,23 @@
         }
     }
 
+    function capitalize(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    function makePhrase() {
+        const number = randint(30)+2;
+        const adjective = ['adorable', 'adventurous', 'alluring', 'amazing', 'ambitious', 'amusing', 'astonishing', 'attractive', 'awesome', 'bashful', 'bawdy', 'beautiful', 'bewildered', 'bizarre', 'bouncy', 'brainy', 'brave', 'brawny', 'burly', 'capricious', 'careful', 'caring', 'cautious', 'charming', 'cheerful', 'chivalrous', 'classy', 'clever', 'clumsy', 'colossal', 'cool', 'coordinated', 'courageous', 'cuddly', 'curious', 'cute', 'daffy', 'dapper', 'dashing', 'dazzling', 'delicate', 'delightful', 'determined', 'eager', 'embarrassed', 'enchanted', 'energetic', 'enormous', 'entertaining', 'enthralling', 'enthusiastic', 'evanescent', 'excited', 'exotic', 'exuberant', 'exultant', 'fabulous', 'fancy', 'festive', 'finicky', 'flashy', 'flippant', 'fluffy', 'fluttering', 'funny', 'furry', 'fuzzy', 'gaudy', 'gentle', 'giddy', 'glamorous', 'gleaming', 'goofy', 'gorgeous', 'graceful', 'grandiose', 'groovy', 'handsome', 'happy', 'hilarious', 'honorable', 'hulking', 'humorous', 'industrious', 'incredible', 'intelligent', 'jazzy', 'jolly', 'joyous', 'kind', 'macho', 'magnificent', 'majestic', 'marvelous', 'mighty', 'mysterious', 'naughty', 'nimble', 'nutty', 'oafish', 'obnoxious', 'outrageous', 'pretty', 'psychedelic', 'psychotic', 'puzzled', 'quirky', 'quizzical', 'rambunctious', 'remarkable', 'sassy', 'shaggy', 'smelly', 'sneaky', 'spiffy', 'swanky', 'sweet', 'swift', 'talented', 'thundering', 'unkempt', 'upbeat', 'uppity', 'wacky', 'waggish', 'whimsical', 'wiggly', 'zany'];
+        const noun = ['aardvarks', 'alligators', 'alpacas', 'anteaters', 'antelopes', 'armadillos', 'baboons', 'badgers', 'bears', 'beavers', 'boars', 'buffalos', 'bulls', 'bunnies', 'camels', 'cats', 'chameleons', 'cheetahs', 'centaurs', 'chickens', 'chimpanzees', 'chinchillas', 'chipmunks', 'cougars', 'cows', 'coyotes', 'cranes', 'crickets', 'crocodiles', 'deers', 'dinasaurs', 'dingos', 'dogs', 'donkeys', 'dragons', 'elephants', 'elves', 'ferrets', 'flamingos', 'foxes', 'frogs', 'gazelles', 'giraffes', 'gnomes', 'gnus', 'goats', 'gophers', 'gorillas', 'hamsters', 'hedgehogs', 'hippopotamus', 'hobbits', 'hogs', 'horses', 'hyenas', 'ibexes', 'iguanas', 'impalas', 'jackals', 'jackalopes', 'jaguars', 'kangaroos', 'kittens', 'koalas', 'lambs', 'lemmings', 'leopards', 'lions', 'ligers', 'lizards', 'llamas', 'lynxes', 'meerkat', 'moles', 'mongooses', 'monkeys', 'moose', 'mules', 'newts', 'okapis', 'orangutans', 'ostriches', 'otters', 'oxes', 'pandas', 'panthers', 'peacocks', 'pegasuses', 'phoenixes', 'pigeons', 'pigs', 'platypuses', 'ponies', 'porcupines', 'porpoises', 'pumas', 'pythons', 'rabbits', 'raccoons', 'rams', 'reindeers', 'rhinoceroses', 'salamanders', 'seals', 'sheep', 'skunks', 'sloths', 'slugs', 'snails', 'snakes', 'sphinxes', 'sprites', 'squirrels', 'takins', 'tigers', 'toads', 'trolls', 'turtles', 'unicorns', 'walruses', 'warthogs', 'weasels', 'wolves', 'wolverines', 'wombats', 'woodchucks', 'yaks', 'zebras'];
+        const verb = ['ambled', 'assembled', 'burst', 'babbled', 'charged', 'chewed', 'clamored', 'coasted', 'crawled', 'crept', 'danced', 'dashed', 'drove', 'flopped', 'galloped', 'gathered', 'glided', 'hobbled', 'hopped', 'hurried', 'hustled', 'jogged', 'juggled', 'jumped', 'laughed', 'marched', 'meandered', 'munched', 'passed', 'plodded', 'pranced', 'ran', 'raced', 'rushed', 'sailed', 'sang', 'sauntered', 'scampered', 'scurried', 'skipped', 'slogged', 'slurped', 'spied', 'sprinted', 'spurted', 'squiggled', 'squirmed', 'stretched', 'strode', 'strut', 'swam', 'swung', 'traveled', 'trudged', 'tumbled', 'twisted', 'wade', 'wandered', 'whistled', 'wiggled', 'wobbled', 'yawned', 'zipped', 'zoomed'];
+        const adverb = ['absentmindedly', 'adventurously', 'angrily', 'anxiously', 'awkwardly', 'bashfully', 'beautifully', 'bleakly', 'blissfully', 'boastfully', 'boldly', 'bravely', 'briskly', 'calmly', 'carefully', 'cautiously', 'cheerfully', 'cleverly', 'cluelessly', 'clumsily', 'coaxingly', 'colorfully', 'coolly', 'courageously', 'curiously', 'daintily', 'defiantly', 'deliberately', 'delightfully', 'diligently', 'dreamily', 'drudgingly', 'eagerly', 'effortlessly', 'elegantly', 'energetically', 'enthusiastically', 'excitedly', 'fervently', 'foolishly', 'furiously', 'gallantly', 'gently', 'gladly', 'gleefully', 'gracefully', 'gratefully', 'happily', 'hastily', 'haphazardly', 'hungrily', 'innocently', 'inquisitively', 'intensely', 'jokingly', 'joshingly', 'joyously', 'jovially', 'jubilantly', 'kiddingly', 'knavishly', 'knottily', 'kookily', 'lazily', 'loftily', 'longingly', 'lovingly', 'loudly', 'loyally', 'madly', 'majestically', 'merrily', 'mockingly', 'mysteriously', 'nervously', 'noisily', 'obnoxiously', 'oddly', 'optimistically', 'overconfidently', 'outside', 'owlishly', 'patiently', 'playfully', 'politely', 'powerfully', 'purposefully', 'quaintly', 'quarrelsomely', 'queasily', 'quickly', 'quietly', 'quirkily', 'quizzically', 'rapidly', 'reassuringly', 'recklessly', 'reluctantly', 'reproachfully', 'sadly', 'scarily', 'seriously', 'shakily', 'sheepishly', 'shyly', 'silently', 'sillily', 'sleepily', 'slowly', 'speedily', 'stealthily', 'sternly', 'suspiciously', 'sweetly', 'tenderly', 'tensely', 'thoughtfully', 'triumphantly', 'unabashedly', 'unaccountably', 'urgently', 'vainly', 'valiantly', 'victoriously', 'warmly', 'wearily', 'youthfully', 'zestfully'];
+        return number + capitalize(adjective[randint(adjective.length)]) + capitalize(noun[randint(noun.length)]) + capitalize(verb[randint(verb.length)]) + capitalize(adverb[randint(adverb.length)])
+    }
+
+    function makeEmail(name) {
+        return (name || makePhrase()) + "@mailinator.com";
+    }
+
     function tryGetElem(id, f) {
         const e = document.getElementById(id);
         if (e) {
@@ -30,7 +47,7 @@
         
     function Checkout(country) {
         const regNo = tryGetElem("Customer_OrgNo", e => e.value = e.value || getRegNo(country));
-        const email = tryGetElem("Employee_Email", e => e.value) || tryGetElem("CompanyContactEmail", e => e.innerText);
+        const email = tryGetElem("Employee_Email", e => e.value = e.value || makeEmail()) || tryGetElem("CompanyContactEmail", e => e.innerText);
         tryGetElem("Customer_Name", e => e.value = email && email.split("@")[0] || regNo + " customer");
         tryGetElem("Customer_InvoicingAddress1", e => e.value = "A");
         tryGetElem("Customer_InvoicingPostalCode", e => e.value = country === "no" ? "2222" : "22222");
@@ -39,24 +56,27 @@
         tryGetElem("AcceptTermsOfService", e => e.checked = true);
 
         tryGetElem("Employee_FirstName", e => e.value = country + "-Test");
-        tryGetElem("Employee_LastName", e => e.value = email.split("@")[0]);
+        tryGetElem("Employee_LastName", e => e.value = email && email.split("@")[0]) || regNo;
+        return { email, regNo };
     }
 
     function Trial(country) {
         const d = new Date();
-        const email = tryGetElem("Email", e => e.value = country + pad(d.getYear() % 100, 2) + pad(d.getMonth() + 1 , 2) + pad(d.getDate() , 2) + "-" + pad(randint(10000) + "@vline.spcs.se", 4));
+        const email = tryGetElem("Email", e => e.value = e.value || makeEmail());
         tryGetElem("Firstname", e => e.value = country + "-Test");
         tryGetElem("Surname", e => e.value = email.split("@")[0]);
         tryGetElem("AcceptLicenceAgreement", e => e.checked = true);
         tryGetElem("Phone", e => e.value = country === "no" ? "12345678" : "070-1234567");
+        return { email };
     }
 
     function InviteAO(country) {
         const d = new Date();
-        const email = tryGetElem("Email", e => e.value = country + pad(d.getYear() % 100, 2) + pad(d.getMonth() + 1, 2) + pad(d.getDate(), 2) + "-" + pad(randint(10000) + "@vline.spcs.se", 4));
+        const email = tryGetElem("Email", e => e.value = e.value || makeEmail());
         tryGetElem("CompanyName", e => e.value = email.split("@")[0]);
-        tryGetElem("CorporateIdentityNo", e => e.value = getRegNo(country));
+        const regNo = tryGetElem("CorporateIdentityNo", e => e.value = e.value || getRegNo(country));
         tryGetElem("ContactPersonName", e => e.value = country + "-Test");
+        return { email, regNo };
     }
 
     function NewVONCustomer(country) {
@@ -65,32 +85,40 @@
             customerNumber = tryGetElem("maincontentholder_CustomerNoTextBox", e => e.value = randint(100000000));
         }
         tryGetElem("maincontentholder_CustomerNameTextBox", e => e.value = country + customerNumber);
-        tryGetElem("maincontentholder_NewOrgNoTextBox", e => e.value = getRegNo(country));
+        const regNo = tryGetElem("maincontentholder_NewOrgNoTextBox", e => e.value = getRegNo(country));
         tryGetElem("maincontentholder_NewInvoiceAddress1TextBox", e => e.value = "A");
         tryGetElem("maincontentholder_NewInvoicePostalCodeTextBox", e => e.value = country === "no" ? "2222" : "22222");
         tryGetElem("maincontentholder_NewInvoiceCityTextBox", e => e.value = "Stad");
-        tryGetElem("maincontentholder_EmailTextBox", e => e.value = country + customerNumber + "@vline.spcs.se");
+        const email = tryGetElem("maincontentholder_EmailTextBox", e => e.value = makeEmail(country + customerNumber));
         tryGetElem("maincontentholder_FirstNameTextBox", e => e.value = country + "-Test");
         tryGetElem("maincontentholder_LastNameTextBox", e => e.value = customerNumber);
+        return { email, regNo };
+    }
+
+    function NewVCPassword() {
+        tryGetElem("Password", e => e.value = "Asdf1234!!");
+        tryGetElem("RetypePassword", e => e.value = "Asdf1234!!");
     }
 
     const topDomain = location.host.split(".").pop().split(":").pop();
 
     const m = window.location.href.match(/\/[a-z]{2}\-([A-Z]{2})\//);
     if(m) {
-        country = m[1].toLowerCase();
+        const country = m[1].toLowerCase();
         if(document.getElementById("Customer_OrgNo")) {
-            Checkout(country);
+            return Checkout(country);
         }
         else if (document.getElementById("SendInvitationToAO")) {
-            InviteAO(country);
+            return InviteAO(country);
         }
         else if(document.getElementById("Email"))     {
-            Trial(country);
+            return Trial(country);
         }
     } 
     else if(window.location.href.match(/\/administration\/Internal\/AddNewCustomer\.aspx\b/i)) {
         const country = { "se":"se", "no":"no", "81":"no" }[topDomain] || "se";
-        NewVONCustomer(country);
+        return NewVONCustomer(country);
+    } else if (document.getElementById("Password") && document.getElementById("RetypePassword")) { // VC
+        return NewVCPassword();
     }
 })();

@@ -1,3 +1,4 @@
 .history/
 .web-extension-id
 web-ext-artifacts/
+build/
