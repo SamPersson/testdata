@@ -1,6 +1,8 @@
-(function() {
+(async function() {
     const randint = m => Math.floor(Math.random() * m);
     const pad = ((si, l) => (s => new Array(Math.max(l + 1 - s.length, 0)).join("0") + s)(si.toString()));
+
+    const settings = await browser.storage.local.get();
 
     function getRegNo(country) {
         if (country === "se") {
@@ -37,7 +39,10 @@
     }
 
     function makeEmail(name) {
-        return (name || makePhrase()) + "@mailinator.com";
+        const mailDomain = settings.vlineDomains.indexOf(window.location.hostname) !== -1
+            ? "@vline.spcs.se"
+            : "@mailinator.com";
+        return (name || makePhrase()) + mailDomain;
     }
 
     function tryGetElem(id, f) {
@@ -46,60 +51,69 @@
             return f(e);
         }
     }
+
+    function setValue(value, ifEmpty = false) {
+        return e => {
+            if (!e.disabled && (!ifEmpty || !e.value)) {
+                e.autocomplete = "off";
+                return e.value = (typeof value === "function") ? value() : value;
+            }
+        };
+    }
         
     function Checkout(country) {
-        const regNo = tryGetElem("Customer_OrgNo", e => e.value = e.value || getRegNo(country));
-        const email = tryGetElem("Employee_Email", e => e.value = e.value || makeEmail()) || tryGetElem("CompanyContactEmail", e => e.innerText);
-        tryGetElem("Customer_Name", e => e.value = email && email.split("@")[0] || regNo + " customer");
-        tryGetElem("Customer_InvoicingAddress1", e => e.value = "A");
-        tryGetElem("Customer_InvoicingPostalCode", e => e.value = country === "no" ? "2222" : "22222");
-        tryGetElem("Customer_InvoicingCity", e => e.value = "Stad");
-        tryGetElem("Customer_PhoneNumber", e => e.value = country === "no" ? "12345678" : "070-1234567");
+        const regNo = tryGetElem("Customer_OrgNo", setValue(() => getRegNo(country), true));
+        const email = tryGetElem("Employee_Email", setValue(makeEmail, true)) || tryGetElem("CompanyContactEmail", e => e.innerText);
+        tryGetElem("Customer_Name", setValue(email && email.split("@")[0] || regNo + " customer"));
+        tryGetElem("Customer_InvoicingAddress1", setValue("A"));
+        tryGetElem("Customer_InvoicingPostalCode", setValue(country === "no" ? "2222" : "22222"));
+        tryGetElem("Customer_InvoicingCity", setValue("Stad"));
+        tryGetElem("Customer_PhoneNumber", setValue(country === "no" ? "12345678" : "070-1234567"));
         tryGetElem("AcceptTermsOfService", e => e.checked = true);
 
-        tryGetElem("Employee_FirstName", e => e.value = country + "-Test");
-        tryGetElem("Employee_LastName", e => e.value = email && email.split("@")[0]) || regNo;
+        tryGetElem("Employee_FirstName", setValue(country + "-Test"));
+        tryGetElem("Employee_LastName", setValue(email && email.split("@")[0]) || regNo);
         return { email, regNo };
     }
 
     function Trial(country) {
         const d = new Date();
-        const email = tryGetElem("Email", e => e.value = e.value || makeEmail());
-        tryGetElem("Firstname", e => e.value = country + "-Test");
-        tryGetElem("Surname", e => e.value = email.split("@")[0]);
+        const email = tryGetElem("Email", setValue(makeEmail, true));
+        tryGetElem("Firstname", setValue(country + "-Test"));
+        tryGetElem("Surname", setValue(email.split("@")[0]));
         tryGetElem("AcceptLicenceAgreement", e => e.checked = true);
-        tryGetElem("Phone", e => e.value = country === "no" ? "12345678" : "070-1234567");
+        tryGetElem("Phone", setValue(country === "no" ? "12345678" : "070-1234567"));
         return { email };
     }
 
     function InviteAO(country) {
         const d = new Date();
-        const email = tryGetElem("Email", e => e.value = e.value || makeEmail());
-        tryGetElem("CompanyName", e => e.value = email.split("@")[0]);
-        const regNo = tryGetElem("CorporateIdentityNo", e => e.value = e.value || getRegNo(country));
-        tryGetElem("ContactPersonName", e => e.value = country + "-Test");
+        const email = tryGetElem("Email", setValue(makeEmail, true));
+        tryGetElem("CompanyName", setValue(email.split("@")[0]));
+        const regNo = tryGetElem("CorporateIdentityNo", setValue(() => getRegNo(country), true));
+        tryGetElem("ContactPersonName", setValue(country + "-Test"));
         return { email, regNo };
     }
 
     function NewVONCustomer(country) {
         let customerNumber = tryGetElem("maincontentholder_CustomerNoTextBox", e => e.value.trim());
         if(!customerNumber.match(/\d+/)) {
-            customerNumber = tryGetElem("maincontentholder_CustomerNoTextBox", e => e.value = randint(100000000));
+            customerNumber = tryGetElem("maincontentholder_CustomerNoTextBox", setValue(randint(100000000)))
         }
-        tryGetElem("maincontentholder_CustomerNameTextBox", e => e.value = country + customerNumber);
-        const regNo = tryGetElem("maincontentholder_NewOrgNoTextBox", e => e.value = getRegNo(country));
-        tryGetElem("maincontentholder_NewInvoiceAddress1TextBox", e => e.value = "A");
-        tryGetElem("maincontentholder_NewInvoicePostalCodeTextBox", e => e.value = country === "no" ? "2222" : "22222");
-        tryGetElem("maincontentholder_NewInvoiceCityTextBox", e => e.value = "Stad");
-        const email = tryGetElem("maincontentholder_EmailTextBox", e => e.value = makeEmail(country + customerNumber));
-        tryGetElem("maincontentholder_FirstNameTextBox", e => e.value = country + "-Test");
-        tryGetElem("maincontentholder_LastNameTextBox", e => e.value = customerNumber);
+        tryGetElem("maincontentholder_CustomerNameTextBox", setValue(country + customerNumber));
+        const regNo = tryGetElem("maincontentholder_NewOrgNoTextBox", setValue(() => getRegNo(country), true));
+        tryGetElem("maincontentholder_NewInvoiceAddress1TextBox", setValue("A"));
+        tryGetElem("maincontentholder_NewInvoicePostalCodeTextBox", setValue(country === "no" ? "2222" : "22222"));
+        tryGetElem("maincontentholder_NewInvoiceCityTextBox", setValue("Stad"));
+        const email = tryGetElem("maincontentholder_EmailTextBox", setValue(() => makeEmail(country + customerNumber), true));
+        tryGetElem("maincontentholder_FirstNameTextBox", setValue(country + "-Test"));
+        tryGetElem("maincontentholder_LastNameTextBox", setValue(customerNumber));
         return { email, regNo };
     }
 
     function NewVCPassword() {
-        tryGetElem("Password", e => e.value = "Asdf1234!!");
-        tryGetElem("RetypePassword", e => e.value = "Asdf1234!!");
+        tryGetElem("Password", setValue("Asdf1234!!"));
+        tryGetElem("RetypePassword", setValue("Asdf1234!!"));
     }
 
     const topDomain = location.host.split(".").pop().split(":").pop();
