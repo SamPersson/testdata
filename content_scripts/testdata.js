@@ -54,7 +54,10 @@
 
     function setValue(value, ifEmpty = false) {
         return e => {
-            if (!e.disabled && (!ifEmpty || !e.value)) {
+            if (!e.disabled) {
+                if (ifEmpty && e.value) {
+                    return e.value.toString();
+                }
                 e.autocomplete = "off";
                 return e.value = (typeof value === "function") ? value() : value;
             }
@@ -137,4 +140,9 @@
     } else if (document.getElementById("Password") && document.getElementById("RetypePassword")) { // VC
         return NewVCPassword();
     }
-})();
+})().then(data => {
+    if (data) {
+        browser.runtime.sendMessage(data);
+    }
+});
+

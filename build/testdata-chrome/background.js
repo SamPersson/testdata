@@ -1,7 +1,6 @@
-async function insertTestData() {
-    console.log("browserAction");
-    const {email, regNo} = (await browser.tabs.executeScript(null, {allFrames:true, file:"/content_scripts/testdata.js"})).filter(f => f.email)[0];
-    var currentTab = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
+async function handleMessage(message) {
+    const { email, regNo } = message;
+    const currentTab = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
     const m = email && email.match(/^([^@]+)\@mailinator\.com$/i)
     if (m) {
         browser.tabs.create({
@@ -11,7 +10,12 @@ async function insertTestData() {
         });
     }
 }
+browser.runtime.onMessage.addListener(handleMessage);
 
+async function insertTestData() {
+    browser.tabs.executeScript({ file: "browser-polyfill.js" });
+    browser.tabs.executeScript(null, { allFrames: true, file: "/content_scripts/testdata.js" });
+}
 browser.browserAction.onClicked.addListener(insertTestData);
 
 async function setDefaultSettings()
@@ -22,5 +26,4 @@ async function setDefaultSettings()
     }
     browser.storage.local.set(settings);
 }
-
 setDefaultSettings();
