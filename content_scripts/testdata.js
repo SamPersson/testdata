@@ -20,6 +20,26 @@
                 reg = pad(randint(1000000000).toString(), 9);
             } while (!isValidRegNo(reg));
             return reg;
+        } else {
+            return pad(randint(100000000).toString(), 8);
+        }
+    }
+
+    function getZipCode(country) {
+        if (country === "se") {
+            return "22222";
+        } else if (country === "nl") {
+            return "2222A22";
+        } else {
+            return "2222";
+        }
+    }
+
+    function getPhone(country) {
+        if (country === "se" || country === "nl") {
+            return "070-1234567";
+        } else {
+            return "12345678";
         }
     }
 
@@ -69,9 +89,9 @@
         const email = tryGetElem("Employee_Email", setValue(makeEmail, true)) || tryGetElem("CompanyContactEmail", e => e.innerText);
         tryGetElem("Customer_Name", setValue(email && email.split("@")[0] || regNo + " customer"));
         tryGetElem("Customer_InvoicingAddress1", setValue("A"));
-        tryGetElem("Customer_InvoicingPostalCode", setValue(country === "no" ? "2222" : "22222"));
+        tryGetElem("Customer_InvoicingPostalCode", setValue(getZipCode(country)));
         tryGetElem("Customer_InvoicingCity", setValue("Stad"));
-        tryGetElem("Customer_PhoneNumber", setValue(country === "no" ? "12345678" : "070-1234567"));
+        tryGetElem("Customer_PhoneNumber", setValue(getPhone(country)));
         tryGetElem("AcceptTermsOfService", e => e.checked = true);
 
         tryGetElem("Employee_FirstName", setValue(country + "-Test"));
@@ -85,7 +105,7 @@
         tryGetElem("Firstname", setValue(country + "-Test"));
         tryGetElem("Surname", setValue(email.split("@")[0]));
         tryGetElem("AcceptLicenceAgreement", e => e.checked = true);
-        tryGetElem("Phone", setValue(country === "no" ? "12345678" : "070-1234567"));
+        tryGetElem("Phone", setValue(getPhone(country)));
         return { email };
     }
 
@@ -106,7 +126,7 @@
         tryGetElem("maincontentholder_CustomerNameTextBox", setValue(country + customerNumber));
         const regNo = tryGetElem("maincontentholder_NewOrgNoTextBox", setValue(() => getRegNo(country), true));
         tryGetElem("maincontentholder_NewInvoiceAddress1TextBox", setValue("A"));
-        tryGetElem("maincontentholder_NewInvoicePostalCodeTextBox", setValue(country === "no" ? "2222" : "22222"));
+        tryGetElem("maincontentholder_NewInvoicePostalCodeTextBox", setValue(getZipCode(country)));
         tryGetElem("maincontentholder_NewInvoiceCityTextBox", setValue("Stad"));
         const email = tryGetElem("maincontentholder_EmailTextBox", setValue(() => makeEmail(country + customerNumber), true));
         tryGetElem("maincontentholder_FirstNameTextBox", setValue(country + "-Test"));
@@ -119,7 +139,7 @@
         tryGetElem("RetypePassword", setValue("Asdf1234!!"));
     }
 
-    const topDomain = location.host.split(".").pop().split(":").pop();
+    const host = location.host;
 
     const m = window.location.href.match(/\/[a-z]{2}\-([A-Z]{2})\//);
     if(m) {
@@ -135,7 +155,13 @@
         }
     } 
     else if(window.location.href.match(/\/administration\/Internal\/AddNewCustomer\.aspx\b/i)) {
-        const country = { "se":"se", "no":"no", "81":"no" }[topDomain] || "se";
+        var mapping = [
+            { country: "no", test: /\.no(\.|$)|:81$|/ },
+            { country: "nl", test: /\.dk(\.|$)|:82$|/ },
+            { country: "dk", test: /\.nl(\.|$)|:89$|/ },
+            { country: "se", test: /.*/ },
+         ]
+        const country = mapping.filter(m => host.match(m.test))[0].country;
         return NewVONCustomer(country);
     } else if (document.getElementById("Password") && document.getElementById("RetypePassword")) { // VC
         return NewVCPassword();

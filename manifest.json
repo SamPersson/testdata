@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "visma-online-test-data",
-  "version": "1.1.1",
+  "version": "1.1.2",
 
   "description": "Click the button to generate test data for various Visma Online pages",
   "homepage_url": "https://github.com/samiljan/testdata",
