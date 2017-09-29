@@ -135,8 +135,8 @@
     }
 
     function NewVCPassword() {
-        tryGetElem("Password", setValue("Asdf1234!!"));
-        tryGetElem("RetypePassword", setValue("Asdf1234!!"));
+        tryGetElem("Password", setValue("Password123!"));
+        tryGetElem("RetypePassword", setValue("Password123!"));
     }
 
     const host = location.host;
@@ -156,14 +156,14 @@
     } 
     else if(window.location.href.match(/\/administration\/Internal\/AddNewCustomer\.aspx\b/i)) {
         var mapping = [
-            { country: "no", test: /\.no(\.|$)|:81$|/ },
-            { country: "nl", test: /\.dk(\.|$)|:82$|/ },
-            { country: "dk", test: /\.nl(\.|$)|:89$|/ },
+            { country: "no", test: /\.no(\.|$)|:81$/ },
+            { country: "nl", test: /\.dk(\.|$)|:82$/ },
+            { country: "dk", test: /\.nl(\.|$)|:89$/ },
             { country: "se", test: /.*/ },
          ]
         const country = mapping.filter(m => host.match(m.test))[0].country;
         return NewVONCustomer(country);
-    } else if (document.getElementById("Password") && document.getElementById("RetypePassword")) { // VC
+    } else if (document.getElementById("Password")) { // VC
         return NewVCPassword();
     }
 })().then(data => {
