@@ -4,6 +4,8 @@
 
     const settings = await browser.storage.local.get();
 
+    const defaultPassword = "Password123!";
+
     function getRegNo(country) {
         if (country === "se") {
             let isValidRegNo = no => no.split("").filter(c => c !== "-").map(c => c - "0").map((c, i) => ((i + 1) % 2 + 1) * c).map(s => (s % 10) + Math.floor(s / 10)).reduce((a, b) => a + b) % 10 === 0;
@@ -41,6 +43,15 @@
         } else {
             return "12345678";
         }
+    }
+
+    function getEducationLicense(country) {
+        if (country === "se") {
+            return "12345";
+        } else if (country === "no") {
+            return "67dci";
+        }
+        return "";
     }
 
     function capitalize(s) {
@@ -100,7 +111,6 @@
     }
 
     function Trial(country) {
-        const d = new Date();
         const email = tryGetElem("Email", setValue(makeEmail, true));
         tryGetElem("Firstname", setValue(country + "-Test"));
         tryGetElem("Surname", setValue(email.split("@")[0]));
@@ -134,9 +144,30 @@
         return { email, regNo };
     }
 
+    function NewStudentCustomer(country) {
+        const educationLicense = getEducationLicense(country);
+        tryGetElem("maincontentholder_tbEducationLicenseId", setValue(educationLicense, true))
+        const email = tryGetElem("maincontentholder_tbEmail", setValue(makeEmail, true));
+        tryGetElem("maincontentholder_tbFirstName", setValue(country + "-Student"));
+        tryGetElem("maincontentholder_tbLastName", setValue(email.split("@")[0]));
+        tryGetElem("maincontentholder_tbPassword", setValue(defaultPassword));
+        tryGetElem("maincontentholder_tbConfirmPassword", setValue(defaultPassword));
+        return { email };
+    }
+
     function NewVCPassword() {
-        tryGetElem("Password", setValue("Password123!"));
-        tryGetElem("RetypePassword", setValue("Password123!"));
+        tryGetElem("Password", setValue(defaultPassword));
+        tryGetElem("RetypePassword", setValue(defaultPassword));
+    }
+
+    function getCountryFromDomain(host) {
+        var mapping = [
+            { country: "no", test: /\.no(\.|$)|:81$/ },
+            { country: "nl", test: /\.dk(\.|$)|:82$/ },
+            { country: "dk", test: /\.nl(\.|$)|:89$/ },
+            { country: "se", test: /.*/ },
+        ]
+        return mapping.filter(m => host.match(m.test))[0].country;
     }
 
     const host = location.host;
@@ -154,15 +185,11 @@
             return Trial(country);
         }
     } 
-    else if(window.location.href.match(/\/administration\/Internal\/AddNewCustomer\.aspx\b/i)) {
-        var mapping = [
-            { country: "no", test: /\.no(\.|$)|:81$/ },
-            { country: "nl", test: /\.dk(\.|$)|:82$/ },
-            { country: "dk", test: /\.nl(\.|$)|:89$/ },
-            { country: "se", test: /.*/ },
-         ]
-        const country = mapping.filter(m => host.match(m.test))[0].country;
-        return NewVONCustomer(country);
+    else if (window.location.href.match(/\/administration\/Internal\/AddNewCustomer\.aspx\b/i)) {
+        return NewVONCustomer(getCountryFromDomain(window.location.host));
+    }
+    else if (window.location.href.match(/\/administration\/customer\/studentsignup\.aspx\b/i)) {
+        return NewStudentCustomer(getCountryFromDomain(window.location.host));
     } else if (document.getElementById("Password")) { // VC
         return NewVCPassword();
     }

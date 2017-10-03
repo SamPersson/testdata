@@ -6,12 +6,14 @@
         {
             "taskName": "build",
             "type": "shell",
-            "command": "py build.py"
+            "command": "py build.py",
+            "problemMatcher": []
         },
         {
             "taskName": "sign firefox",
             "type": "shell",
-            "command": "web-ext sign -s .\\build\\testdata-firefox\\"
-        },
+            "command": "web-ext sign -s .\\build\\testdata-firefox\\",
+            "problemMatcher": []
+        }
     ]
 }
