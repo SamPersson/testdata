@@ -76,6 +76,11 @@
         return (name || makePhrase()) + mailDomain;
     }
 
+    function makeSurname(email) {
+        const firstPart = email && email.split("@")[0];
+        return firstPart.replace(/\d+\-?/ig, "") || "Surname" ;
+    }
+
     function tryGetElem(id, f) {
         const e = document.getElementById(id);
         if (e) {
@@ -106,14 +111,14 @@
         tryGetElem("AcceptTermsOfService", e => e.checked = true);
 
         tryGetElem("Employee_FirstName", setValue(country + "-Test"));
-        tryGetElem("Employee_LastName", setValue(email && email.split("@")[0]) || regNo);
+        tryGetElem("Employee_LastName", setValue(makeSurname(email)));
         return { email, regNo };
     }
 
     function Trial(country) {
         const email = tryGetElem("Email", setValue(makeEmail, true));
         tryGetElem("Firstname", setValue(country + "-Test"));
-        tryGetElem("Surname", setValue(email.split("@")[0]));
+        tryGetElem("Surname", setValue(makeSurname(email)));
         tryGetElem("AcceptLicenceAgreement", e => e.checked = true);
         tryGetElem("Phone", setValue(getPhone(country)));
         return { email };
@@ -140,7 +145,7 @@
         tryGetElem("maincontentholder_NewInvoiceCityTextBox", setValue("Stad"));
         const email = tryGetElem("maincontentholder_EmailTextBox", setValue(() => makeEmail(country + customerNumber), true));
         tryGetElem("maincontentholder_FirstNameTextBox", setValue(country + "-Test"));
-        tryGetElem("maincontentholder_LastNameTextBox", setValue(customerNumber));
+        tryGetElem("maincontentholder_LastNameTextBox", setValue(makeSurname(email)));
         return { email, regNo };
     }
 
@@ -149,7 +154,7 @@
         tryGetElem("maincontentholder_tbEducationLicenseId", setValue(educationLicense, true))
         const email = tryGetElem("maincontentholder_tbEmail", setValue(makeEmail, true));
         tryGetElem("maincontentholder_tbFirstName", setValue(country + "-Student"));
-        tryGetElem("maincontentholder_tbLastName", setValue(email.split("@")[0]));
+        tryGetElem("maincontentholder_tbLastName", setValue(makeSurname(email)));
         tryGetElem("maincontentholder_tbPassword", setValue(defaultPassword));
         tryGetElem("maincontentholder_tbConfirmPassword", setValue(defaultPassword));
         return { email };
