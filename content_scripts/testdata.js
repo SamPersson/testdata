@@ -22,13 +22,22 @@
                 reg = pad(randint(1000000000).toString(), 9);
             } while (!isValidRegNo(reg));
             return reg;
+        } else if (country === "fi") {
+            const ctrl = [7, 9, 10, 5, 8, 4, 2]
+            const getChecksum = no => {
+                const sum = no.substring(0, 7).split("").map(c => c - "0").map((c, i) => ctrl[i] * c).reduce((a, b) => a + b);
+                const remainder = sum % 11
+                return remainder > 1 ? 11 - remainder : remainder;
+            }
+            const no = pad(randint(10000000).toString(), 7);
+            return no + "-" + getChecksum(no);
         } else {
             return pad(randint(100000000).toString(), 8);
         }
     }
 
     function getZipCode(country) {
-        if (country === "se") {
+        if (country === "se" || country == "fi") {
             return "22222";
         } else if (country === "nl") {
             return "2222A22";
@@ -138,12 +147,13 @@
         if(!customerNumber.match(/\d+/)) {
             customerNumber = tryGetElem("maincontentholder_CustomerNoTextBox", setValue(randint(100000000)))
         }
-        tryGetElem("maincontentholder_CustomerNameTextBox", setValue(country + customerNumber));
+        const customerName = customerNumber ? country + customerNumber : makePhrase();
+        tryGetElem("maincontentholder_CustomerNameTextBox", setValue(customerName));
         const regNo = tryGetElem("maincontentholder_NewOrgNoTextBox", setValue(() => getRegNo(country), true));
         tryGetElem("maincontentholder_NewInvoiceAddress1TextBox", setValue("A"));
         tryGetElem("maincontentholder_NewInvoicePostalCodeTextBox", setValue(getZipCode(country)));
         tryGetElem("maincontentholder_NewInvoiceCityTextBox", setValue("Stad"));
-        const email = tryGetElem("maincontentholder_EmailTextBox", setValue(() => makeEmail(country + customerNumber), true));
+        const email = tryGetElem("maincontentholder_EmailTextBox", setValue(() => makeEmail(customerName), true));
         tryGetElem("maincontentholder_FirstNameTextBox", setValue(country + "-Test"));
         tryGetElem("maincontentholder_LastNameTextBox", setValue(makeSurname(email)));
         return { email, regNo };
@@ -170,6 +180,7 @@
             { country: "no", test: /\.no(\.|$)|:81$/ },
             { country: "nl", test: /\.dk(\.|$)|:82$/ },
             { country: "dk", test: /\.nl(\.|$)|:89$/ },
+            { country: "fi", test: /\.fi(\.|$)|passeli\.|:83/ },
             { country: "se", test: /.*/ },
         ]
         return mapping.filter(m => host.match(m.test))[0].country;
