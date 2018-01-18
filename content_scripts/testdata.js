@@ -4,7 +4,7 @@
 
     const settings = await browser.storage.local.get();
 
-    const defaultPassword = "Password123!";
+    const defaultPassword = "ewqEWQ321#\"!";
 
     function getRegNo(country) {
         if (country === "se") {
@@ -167,12 +167,24 @@
         tryGetElem("maincontentholder_tbLastName", setValue(makeSurname(email)));
         tryGetElem("maincontentholder_tbPassword", setValue(defaultPassword));
         tryGetElem("maincontentholder_tbConfirmPassword", setValue(defaultPassword));
+        console.log("Password set to: " + defaultPassword)
+        return { email };
+    }
+
+    function NewCollaboration(country) {
+        const email = tryGetElem("maincontentholder_EmailAddress", setValue(makeEmail, true));
+        tryGetElem("maincontentholder_FirstName", setValue(country + "-Client"));
+        tryGetElem("maincontentholder_LastName", setValue(makeSurname(email)));
+        tryGetElem("maincontentholder_InvoicingAddress1", setValue("A"));
+        tryGetElem("maincontentholder_InvoicingPostalCode", setValue(getZipCode(country)));
+        tryGetElem("maincontentholder_InvoicingCity", setValue("Stad"));
         return { email };
     }
 
     function NewVCPassword() {
         tryGetElem("Password", setValue(defaultPassword));
         tryGetElem("RetypePassword", setValue(defaultPassword));
+        console.log("Password set to: " + defaultPassword)
     }
 
     function getCountryFromDomain(host) {
@@ -206,6 +218,9 @@
     }
     else if (window.location.href.match(/\/administration\/customer\/studentsignup\.aspx\b/i)) {
         return NewStudentCustomer(getCountryFromDomain(window.location.host));
+    }
+    else if (window.location.href.match(/\/administration\/customer\/sendinvitation\.aspx\b/i)) {
+        return NewCollaboration(getCountryFromDomain(window.location.host));
     } else if (document.getElementById("Password")) { // VC
         return NewVCPassword();
     }
