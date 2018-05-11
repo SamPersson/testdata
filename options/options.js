@@ -2,6 +2,7 @@
 async function updateUI() {
   const restoredSettings = await browser.storage.local.get();
   document.querySelector("#vline-domains").value = restoredSettings.vlineDomains.join("\n");
+  document.querySelector("#auto-password").value = restoredSettings.password;
 }
 updateUI();
 
@@ -12,9 +13,9 @@ function storeSettings() {
     return text.split(/(\s*[\r\n]+\s*)+/);
   }
 
-  const vlineDomains = getDomains();
   const settings = {
-    vlineDomains
+    vlineDomains: getDomains(),
+    password: document.querySelector("#auto-password").value,
   };
   console.log("storeSettings", settings);
   browser.storage.local.set(settings);

@@ -8,7 +8,7 @@ def get_files_to_zip():
         r'\.(py|sh|pem)$', #file endings
         r'(\\|/)\.', #hidden files
         r'package\.json|icon\.html|updates\.json|visma\.js', #file names
-        r'(\\|/)(promo|unittest|build|web-ext-artifacts)(\\|/)' #folders
+        r'(\\|/)(promo|unittest|build|web-ext-artifacts|node_modules)(\\|/)' #folders
     ]
 
     zippable_files = []

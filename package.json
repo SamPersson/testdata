@@ -1,0 +1,28 @@
+{
+  "name": "visma-online-test-data",
+  "version": "1.1.8",
+  "description": "Browser extension for generating test data for various Visma Online pages",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "env -u WEB_EXT_API_KEY -u WEB_EXT_API_SECRET web-ext run",
+    "build": "cp node_modules/webextension-polyfill/dist/browser-polyfill.min.js browser-polyfill.js && python build.py",
+    "sign": "web-ext sign -s build/testdata-firefox",
+    "pack": "env -u WEB_EXT_API_KEY -u WEB_EXT_API_SECRET web-ext build -s build/testdata-firefox"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samiljan/testdata.git"
+  },
+  "author": "Sam Persson (sam.persson@adhoc.se)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samiljan/testdata/issues"
+  },
+  "homepage": "https://github.com/samiljan/testdata#readme",
+  "devDependencies": {
+    "ajv": "^5.0.0",
+    "web-ext": "^2.6.0",
+    "webextension-polyfill": "^0.2.1"
+  }
+}

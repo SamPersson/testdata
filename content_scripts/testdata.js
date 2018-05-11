@@ -4,8 +4,6 @@
 
     const settings = await browser.storage.local.get();
 
-    const defaultPassword = "ewqEWQ321#\"!";
-
     function getRegNo(country) {
         if (country === "se") {
             let isValidRegNo = no => no.split("").filter(c => c !== "-").map(c => c - "0").map((c, i) => ((i + 1) % 2 + 1) * c).map(s => (s % 10) + Math.floor(s / 10)).reduce((a, b) => a + b) % 10 === 0;
@@ -40,7 +38,7 @@
         if (country === "se" || country == "fi") {
             return "22222";
         } else if (country === "nl") {
-            return "2222A22";
+            return "2222AP";
         } else {
             return "2222";
         }
@@ -213,13 +211,13 @@
             return Trial(country);
         }
     } 
-    else if (window.location.href.match(/\/administration\/Internal\/AddNewCustomer\.aspx\b/i)) {
+    else if (window.location.href.match(/\/Internal\/AddNewCustomer\.aspx\b/i)) {
         return NewVONCustomer(getCountryFromDomain(window.location.host));
     }
-    else if (window.location.href.match(/\/administration\/customer\/studentsignup\.aspx\b/i)) {
+    else if (window.location.href.match(/\/customer\/studentsignup\.aspx\b/i)) {
         return NewStudentCustomer(getCountryFromDomain(window.location.host));
     }
-    else if (window.location.href.match(/\/administration\/customer\/sendinvitation\.aspx\b/i)) {
+    else if (window.location.href.match(/\/customer\/sendinvitation\.aspx\b/i)) {
         return NewCollaboration(getCountryFromDomain(window.location.host));
     } else if (document.getElementById("Password")) { // VC
         return NewVCPassword();

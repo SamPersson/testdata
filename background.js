@@ -24,6 +24,48 @@ async function setDefaultSettings()
     if (settings.vlineDomains === undefined) {
         settings.vlineDomains = ["localhost"];
     }
+    if (settings.password === undefined) {
+        settings.password = "ewqEWQ321#\"!";
+    }
     browser.storage.local.set(settings);
 }
 setDefaultSettings();
+
+async function copyPassword() {
+    browser.tabs.executeScript({ file: "browser-polyfill.js" });
+    browser.tabs.executeScript(null, { file: "/content_scripts/copy.js" });
+}
+
+browser.contextMenus.create({
+    id: "auto-password",
+    contexts: ["browser_action"],
+    onclick: copyPassword,
+    title: "Copy password",
+});
+
+if (browser.contextMenus.onShown) {
+    let lastMenuInstanceId = 0;
+    let nextMenuInstanceId = 1;
+    browser.contextMenus.onShown.addListener(async info => {
+        let menuInstanceId = nextMenuInstanceId++;
+        lastMenuInstanceId = menuInstanceId;
+
+        if (!info.menuIds.filter(id => id === "auto-password")[0]) {
+            return;
+        }
+        
+        let settings = await browser.storage.local.get();
+
+        // After completing the async operation, check whether the menu is still shown.
+        if (menuInstanceId !== lastMenuInstanceId) {
+            return; // Menu was closed and shown again.
+        }
+
+        browser.contextMenus.update("auto-password", {title: `Copy password: ${settings.password}`});
+        browser.contextMenus.refresh();
+    });
+
+    browser.contextMenus.onHidden.addListener(function () {
+        lastMenuInstanceId = 0;
+    });
+}
