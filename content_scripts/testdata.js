@@ -89,7 +89,7 @@
     }
 
     function tryGetElem(id, f) {
-        const e = document.getElementById(id);
+        const e = document.querySelector(`[id$=${id}]`);
         if (e) {
             return f(e);
         }
@@ -163,9 +163,9 @@
         const email = tryGetElem("maincontentholder_tbEmail", setValue(makeEmail, true));
         tryGetElem("maincontentholder_tbFirstName", setValue(country + "-Student"));
         tryGetElem("maincontentholder_tbLastName", setValue(makeSurname(email)));
-        tryGetElem("maincontentholder_tbPassword", setValue(defaultPassword));
-        tryGetElem("maincontentholder_tbConfirmPassword", setValue(defaultPassword));
-        console.log("Password set to: " + defaultPassword)
+        tryGetElem("maincontentholder_tbPassword", setValue(settings.password));
+        tryGetElem("maincontentholder_tbConfirmPassword", setValue(settings.password));
+        console.log("Password set to: " + settings.password)
         return { email };
     }
 
@@ -180,9 +180,9 @@
     }
 
     function NewVCPassword() {
-        tryGetElem("Password", setValue(defaultPassword));
-        tryGetElem("RetypePassword", setValue(defaultPassword));
-        console.log("Password set to: " + defaultPassword)
+        tryGetElem("Password", setValue(settings.password));
+        tryGetElem("RetypePassword", setValue(settings.password));
+        console.log("Password set to: " + settings.password)
     }
 
     function getCountryFromDomain(host) {
