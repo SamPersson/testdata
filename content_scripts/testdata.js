@@ -128,6 +128,7 @@
         tryGetElem("Surname", setValue(makeSurname(email)));
         tryGetElem("AcceptLicenceAgreement", e => e.checked = true);
         tryGetElem("Phone", setValue(getPhone(country)));
+        tryGetElem("CompanyName", setValue(email && email.split("@")[0] || "customer"));
         return { email };
     }
 
@@ -198,7 +199,7 @@
 
     const host = location.host;
 
-    const m = window.location.href.match(/\/[a-z]{2}\-([A-Z]{2})\//);
+    const m = window.location.href.match(/\/[a-z]{2}\-([a-z]{2})\//i);
     if(m) {
         const country = m[1].toLowerCase();
         if(document.getElementById("Customer_OrgNo")) {
