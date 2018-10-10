@@ -4,7 +4,7 @@ async function handleMessage(message) {
     const m = email && email.match(/^([^@]+)\@mailinator\.com$/i)
     if (m) {
         browser.tabs.create({
-            url: "https://www.mailinator.com/v2/inbox.jsp?zone=public&query=" + encodeURIComponent(m[1]),
+            url: "https://www.mailinator.com/v3/inbox.jsp?zone=public&query=" + encodeURIComponent(m[1]),
             active: false,
             index: currentTab && currentTab.index + 1 || undefined,
         });
