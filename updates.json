@@ -73,6 +73,10 @@
         {
           "version": "1.1.12",
           "update_link": "https://github.com/samiljan/testdata/releases/download/v1.1.12/visma_online_test_data-1.1.12-an+fx.xpi"
+        },
+        {
+          "version": "1.1.13",
+          "update_link": "https://github.com/samiljan/testdata/releases/download/v1.1.13/visma_online_test_data-1.1.13-an+fx.xpi"
         }
       ]
     }
