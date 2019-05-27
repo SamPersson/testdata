@@ -4,6 +4,9 @@
 
     const settings = await browser.storage.local.get();
 
+    /**
+    * @param {string} country
+    */
     function getRegNo(country) {
         if (country === "se") {
             let isValidRegNo = no => no.split("").filter(c => c !== "-").map(c => c - "0").map((c, i) => ((i + 1) % 2 + 1) * c).map(s => (s % 10) + Math.floor(s / 10)).reduce((a, b) => a + b) % 10 === 0;
@@ -34,6 +37,9 @@
         }
     }
 
+    /**
+    * @param {string} country
+    */
     function getZipCode(country) {
         if (country === "se" || country == "fi") {
             return "22222";
@@ -44,6 +50,9 @@
         }
     }
 
+    /**
+    * @param {string} country
+    */
     function getPhone(country) {
         if (country === "se" || country === "nl") {
             return "070-1234567";
@@ -52,6 +61,9 @@
         }
     }
 
+    /**
+    * @param {string} country
+    */
     function getEducationLicense(country) {
         if (country === "se") {
             return "12345";
@@ -61,19 +73,30 @@
         return "";
     }
 
+    /**
+     * @param {string} s 
+     */
     function capitalize(s) {
         return s.charAt(0).toUpperCase() + s.slice(1);
     }
 
-    function makePhrase() {
-        //const number = randint(30)+2;
+    function makePhraseParts() {
         const adjective = ['adorable', 'adventurous', 'alluring', 'amazing', 'ambitious', 'amusing', 'astonishing', 'attractive', 'awesome', 'bashful', 'bawdy', 'beautiful', 'bewildered', 'bizarre', 'bouncy', 'brainy', 'brave', 'brawny', 'burly', 'capricious', 'careful', 'caring', 'cautious', 'charming', 'cheerful', 'chivalrous', 'classy', 'clever', 'clumsy', 'colossal', 'cool', 'coordinated', 'courageous', 'cuddly', 'curious', 'cute', 'daffy', 'dapper', 'dashing', 'dazzling', 'delicate', 'delightful', 'determined', 'eager', 'embarrassed', 'enchanted', 'energetic', 'enormous', 'entertaining', 'enthralling', 'enthusiastic', 'evanescent', 'excited', 'exotic', 'exuberant', 'exultant', 'fabulous', 'fancy', 'festive', 'finicky', 'flashy', 'flippant', 'fluffy', 'fluttering', 'funny', 'furry', 'fuzzy', 'gaudy', 'gentle', 'giddy', 'glamorous', 'gleaming', 'goofy', 'gorgeous', 'graceful', 'grandiose', 'groovy', 'handsome', 'happy', 'hilarious', 'honorable', 'hulking', 'humorous', 'industrious', 'incredible', 'intelligent', 'jazzy', 'jolly', 'joyous', 'kind', 'macho', 'magnificent', 'majestic', 'marvelous', 'mighty', 'mysterious', 'naughty', 'nimble', 'nutty', 'oafish', 'obnoxious', 'outrageous', 'pretty', 'psychedelic', 'psychotic', 'puzzled', 'quirky', 'quizzical', 'rambunctious', 'remarkable', 'sassy', 'shaggy', 'smelly', 'sneaky', 'spiffy', 'swanky', 'sweet', 'swift', 'talented', 'thundering', 'unkempt', 'upbeat', 'uppity', 'wacky', 'waggish', 'whimsical', 'wiggly', 'zany'];
         const noun = ['aardvarks', 'alligators', 'alpacas', 'anteaters', 'antelopes', 'armadillos', 'baboons', 'badgers', 'bears', 'beavers', 'boars', 'buffalos', 'bulls', 'bunnies', 'camels', 'cats', 'chameleons', 'cheetahs', 'centaurs', 'chickens', 'chimpanzees', 'chinchillas', 'chipmunks', 'cougars', 'cows', 'coyotes', 'cranes', 'crickets', 'crocodiles', 'deers', 'dinasaurs', 'dingos', 'dogs', 'donkeys', 'dragons', 'elephants', 'elves', 'ferrets', 'flamingos', 'foxes', 'frogs', 'gazelles', 'giraffes', 'gnomes', 'gnus', 'goats', 'gophers', 'gorillas', 'hamsters', 'hedgehogs', 'hippopotamus', 'hobbits', 'hogs', 'horses', 'hyenas', 'ibexes', 'iguanas', 'impalas', 'jackals', 'jackalopes', 'jaguars', 'kangaroos', 'kittens', 'koalas', 'lambs', 'lemmings', 'leopards', 'lions', 'ligers', 'lizards', 'llamas', 'lynxes', 'meerkat', 'moles', 'mongooses', 'monkeys', 'moose', 'mules', 'newts', 'okapis', 'orangutans', 'ostriches', 'otters', 'oxes', 'pandas', 'panthers', 'peacocks', 'pegasuses', 'phoenixes', 'pigeons', 'pigs', 'platypuses', 'ponies', 'porcupines', 'porpoises', 'pumas', 'pythons', 'rabbits', 'raccoons', 'rams', 'reindeers', 'rhinoceroses', 'salamanders', 'seals', 'sheep', 'skunks', 'sloths', 'slugs', 'snails', 'snakes', 'sphinxes', 'sprites', 'squirrels', 'takins', 'tigers', 'toads', 'trolls', 'turtles', 'unicorns', 'walruses', 'warthogs', 'weasels', 'wolves', 'wolverines', 'wombats', 'woodchucks', 'yaks', 'zebras'];
         const verb = ['ambled', 'assembled', 'burst', 'babbled', 'charged', 'chewed', 'clamored', 'coasted', 'crawled', 'crept', 'danced', 'dashed', 'drove', 'flopped', 'galloped', 'gathered', 'glided', 'hobbled', 'hopped', 'hurried', 'hustled', 'jogged', 'juggled', 'jumped', 'laughed', 'marched', 'meandered', 'munched', 'passed', 'plodded', 'pranced', 'ran', 'raced', 'rushed', 'sailed', 'sang', 'sauntered', 'scampered', 'scurried', 'skipped', 'slogged', 'slurped', 'spied', 'sprinted', 'spurted', 'squiggled', 'squirmed', 'stretched', 'strode', 'strut', 'swam', 'swung', 'traveled', 'trudged', 'tumbled', 'twisted', 'wade', 'wandered', 'whistled', 'wiggled', 'wobbled', 'yawned', 'zipped', 'zoomed'];
         const adverb = ['absentmindedly', 'adventurously', 'angrily', 'anxiously', 'awkwardly', 'bashfully', 'beautifully', 'bleakly', 'blissfully', 'boastfully', 'boldly', 'bravely', 'briskly', 'calmly', 'carefully', 'cautiously', 'cheerfully', 'cleverly', 'cluelessly', 'clumsily', 'coaxingly', 'colorfully', 'coolly', 'courageously', 'curiously', 'daintily', 'defiantly', 'deliberately', 'delightfully', 'diligently', 'dreamily', 'drudgingly', 'eagerly', 'effortlessly', 'elegantly', 'energetically', 'enthusiastically', 'excitedly', 'fervently', 'foolishly', 'furiously', 'gallantly', 'gently', 'gladly', 'gleefully', 'gracefully', 'gratefully', 'happily', 'hastily', 'haphazardly', 'hungrily', 'innocently', 'inquisitively', 'intensely', 'jokingly', 'joshingly', 'joyously', 'jovially', 'jubilantly', 'kiddingly', 'knavishly', 'knottily', 'kookily', 'lazily', 'loftily', 'longingly', 'lovingly', 'loudly', 'loyally', 'madly', 'majestically', 'merrily', 'mockingly', 'mysteriously', 'nervously', 'noisily', 'obnoxiously', 'oddly', 'optimistically', 'overconfidently', 'outside', 'owlishly', 'patiently', 'playfully', 'politely', 'powerfully', 'purposefully', 'quaintly', 'quarrelsomely', 'queasily', 'quickly', 'quietly', 'quirkily', 'quizzically', 'rapidly', 'reassuringly', 'recklessly', 'reluctantly', 'reproachfully', 'sadly', 'scarily', 'seriously', 'shakily', 'sheepishly', 'shyly', 'silently', 'sillily', 'sleepily', 'slowly', 'speedily', 'stealthily', 'sternly', 'suspiciously', 'sweetly', 'tenderly', 'tensely', 'thoughtfully', 'triumphantly', 'unabashedly', 'unaccountably', 'urgently', 'vainly', 'valiantly', 'victoriously', 'warmly', 'wearily', 'youthfully', 'zestfully'];
         const d = new Date();
-        const id = pad(d.getYear() % 100, 2) + pad(d.getMonth() + 1, 2) + pad(d.getDate(), 2) + "-" + capitalize(adjective[randint(adjective.length)]) + "-" + capitalize(noun[randint(noun.length)]);
-        return id.substr(0, 30);
+        return [
+            pad(d.getYear() % 100, 2) + pad(d.getMonth() + 1, 2) + pad(d.getDate(), 2), 
+            capitalize(adjective[randint(adjective.length)]),
+            capitalize(noun[randint(noun.length)]),
+            capitalize(verb[randint(verb.length)]),
+            capitalize(adverb[randint(adverb.length)])
+        ]
+    }
+
+    function makePhrase() {
+        return makePhraseParts().slice(0, 3).join("-").substr(0, 30);
     }
 
     function makeEmail(name) {
@@ -180,6 +203,18 @@
         return { email };
     }
 
+    function NewDescartesUser() {
+        const phraseParts = makePhraseParts().slice(0, 3);
+        const name = phraseParts.join("-");
+        
+        tryGetElem("firstName", setValue(phraseParts[1]));
+        tryGetElem("lastName", setValue(phraseParts[2]));
+        tryGetElem("initials", setValue(phraseParts[1][0] + phraseParts[2][0] + phraseParts[0].slice(-1)));
+        const email = tryGetElem("email", setValue(makeEmail(name), true));
+        
+        return { email };
+    }
+
     function NewVCPassword() {
         tryGetElem("Password", setValue(settings.password));
         tryGetElem("RetypePassword", setValue(settings.password));
@@ -220,7 +255,13 @@
     }
     else if (window.location.href.match(/\/customer\/sendinvitation\.aspx\b/i)) {
         return NewCollaboration(getCountryFromDomain(window.location.host));
-    } else if (document.getElementById("Password")) { // VC
+    }
+    else if (document.title.includes("Descartes")) {
+        if (window.location.href.match(/\/Account\/List\b/i)) {
+            return NewDescartesUser();
+        }
+    }
+    else if (document.getElementById("Password")) { // VC
         return NewVCPassword();
     }
 })().then(data => {
